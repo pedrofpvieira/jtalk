@@ -11,6 +11,7 @@ services:
       - "127.0.0.1:7070:7070"
 
   scylla:
-    image: scylladb/scylla:latest
+    image: scylladb/scylla:3.0.10
     volumes:
       - ./data/jtalk-scylla:/var/lib/scylla
+
