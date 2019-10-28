@@ -9,3 +9,8 @@ services:
     command: go run main.go
     ports:
       - "127.0.0.1:7070:7070"
+
+  scylla:
+    image: scylladb/scylla:latest
+    volumes:
+      - ./data/jtalk-scylla:/var/lib/scylla
