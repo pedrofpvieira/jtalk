@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  server:
+    build:
+      context: ./
+    volumes:
+      - ./:/app
+    command: go run main.go
+    ports:
+      - "127.0.0.1:7070:7070"
