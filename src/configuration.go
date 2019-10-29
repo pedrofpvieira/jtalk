@@ -4,25 +4,30 @@ import (
 	"os"
 )
 
-var DB_HOST string
-var DB_USERNAME string
-var DB_PASSWORD string
+// DbHost Host to connect to DB
+var DbHost string
+
+// DbUsername Username to connect to DB
+var DbUsername string
+
+// DbPassword Password to connect to DB
+var DbPassword string
 
 func readConfigurations() {
 
-	DB_HOST = os.Getenv("DB_HOST")
-	DB_USERNAME = os.Getenv("DB_USERNAME")
-	DB_PASSWORD = os.Getenv("DB_PASSWORD")
+	DbHost = os.Getenv("DB_HOST")
+	DbUsername = os.Getenv("DB_USERNAME")
+	DbPassword = os.Getenv("DB_PASSWORD")
 }
 
 func getDbHost() string {
-	return DB_HOST
+	return DbHost
 }
 
 func getDbUsername() string {
-	return DB_USERNAME
+	return DbUsername
 }
 
 func getDbPassword() string {
-	return DB_PASSWORD
+	return DbPassword
 }

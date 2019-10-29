@@ -1,9 +1,9 @@
 package main
 
-func FindMessagesByConversation(conversation_id int64) []Message {
-    return []Message{
-        Message{conversation_id: 1234, content: "abc"},
-        Message{conversation_id: conversation_id, content: "def"},
-    }
+// FindMessagesByConversation List the paged conversation based on the conversationID
+func FindMessagesByConversation(conversationID int64) []Message {
+	return []Message{
+		Message{conversationID: 1234, content: "abc"},
+		Message{conversationID: conversationID, content: "def"},
+	}
 }
-
