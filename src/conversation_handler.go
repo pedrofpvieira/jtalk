@@ -20,12 +20,15 @@ func getConversation(c *gin.Context) {
 
     messages := FindMessagesByConversation(conversation_id)
 
-    messagesAsMap := make(map[int]map[string]string)
-    for i := 0; i < len(messages); i++ {
-        messagesAsMap[i] = messages[i].ToMap()
+    var messagesAsMap []map[string]string
+    for _, message := range messages {
+        messagesAsMap = append(messagesAsMap, message.ToMap())
     }
 
     c.JSON(http.StatusOK, gin.H{
         "messages": messagesAsMap,
     })
 }
+
+
+

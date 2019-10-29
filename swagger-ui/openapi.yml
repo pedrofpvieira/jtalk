@@ -2,19 +2,61 @@ openapi: "3.0.0"
 info:
   title: JTalk Restful API Service
   version: 0.0.1
+servers:
+  - url: http://127.0.0.1:7070
 paths:
-  /conversations/list/:author_id:
+  /conversations/author/{author_id}:
     get:
-      operationId: listConversation
-      summary: List Conversations based on the author ID
+      operationId: findConversationsByAuthor
+      summary: Find conversations by author
+      parameters:
+          - in: path
+            name: author_id
+            required: true
+            schema:
+              type: integer
+              example: 1
       responses:
         '200':
-          description: |-
-            200 response
+          description: The author's conversation list
           content:
             application/json:
-              examples: 
-                list:
-                  value: {
-                    "conversations": [] 
-                 }
+              schema:
+                type: array
+                items:
+                  type: integer
+  /conversations/messages/{conversation_id}:
+    get:
+      operationId: findMessagesByConversation
+      summary: Find messages by conversation
+      parameters:
+          - in: path
+            name: conversation_id
+            required: true
+            schema:
+              type: integer
+              example: 1
+      responses:
+        '200':
+          description: The message list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/message'
+components:
+  schemas:
+    message:
+      type: object
+      properties:
+        conversation_id:
+          type: integer
+        message_id:
+          type: integer
+        author_id:
+          type: integer
+        content:
+          type: string
+        created_at:
+          type: integer
