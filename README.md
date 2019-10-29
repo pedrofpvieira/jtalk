@@ -19,9 +19,10 @@ docker-compose up
 ## Run Tests
 ```
 cd jtalk
-make test
+make test (Basic unit test validation)
+make test-coverage (Unit Test + Coverage)
+make test-coverage-html (Unit Test + Coverage in HTML, exported to _generated/ folder)
 ```
-
 ## Endpoints
 
 * GET /conversations/author/:author_id
