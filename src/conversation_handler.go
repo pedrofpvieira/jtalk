@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func startConversation(c *gin.Context) {
+func getAuthorConversations(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Conversation started successfully!",
+		"conversations": "List of conversations here!",
 	})
 }
 

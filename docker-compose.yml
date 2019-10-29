@@ -9,6 +9,8 @@ services:
     command: go run ./src
     ports:
       - "127.0.0.1:7070:7070"
+    env_file:
+      - ./configurations.env
 
   scylla:
     image: scylladb/scylla:3.0.10

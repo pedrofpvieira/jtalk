@@ -1,0 +1,20 @@
+openapi: "3.0.0"
+info:
+  title: JTalk Restful API Service
+  version: 0.0.1
+paths:
+  /conversations/list/:author_id:
+    get:
+      operationId: listConversation
+      summary: List Conversations based on the author ID
+      responses:
+        '200':
+          description: |-
+            200 response
+          content:
+            application/json:
+              examples: 
+                list:
+                  value: {
+                    "conversations": [] 
+                 }

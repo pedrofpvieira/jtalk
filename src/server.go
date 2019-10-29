@@ -12,6 +12,7 @@ func setupRouter() {
 }
 
 func main() {
+	readConfigurations()
 	setupRouter()
 	router.Run(":7070")
 }

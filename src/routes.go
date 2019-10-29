@@ -12,15 +12,14 @@ func initRoutes() {
 		c.String(http.StatusNotImplemented, "")
 	})
 
-	// Start a new conversation
-	router.POST("/conversations", startConversation)
+	router.Static("/swagger/", "./swagger-ui")
 
-	// Get Conversation
-	router.GET("/conversations/:conversation_id", getConversation)
+	conversationRoutes := router.Group("/conversations")
+	{
+		// For a given author id, return a list of available conversations
+		conversationRoutes.GET("/author/:author_id", getAuthorConversations)
 
-	// Add a message to a conversation
-	router.POST("/conversations/:conversation_id/messages", addMessage)
-
-	// Delete a message from a conversation
-	router.DELETE("/conversations/:conversation_id/messages/:message_id", deleteMessage)
+		// Get Conversation
+		conversationRoutes.GET("/messages/:conversation_id", getConversation)
+	}
 }
