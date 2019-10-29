@@ -16,6 +16,11 @@ git clone git@github.com:pedrofpvieira/jtalk.git
 cd jtalk
 docker-compose up
 ```
+## Run Tests
+```
+cd jtalk
+make test
+```
 
 ## Endpoints
 

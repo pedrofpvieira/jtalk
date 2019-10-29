@@ -9,6 +9,14 @@ jobs:
       - image: circleci/golang:latest
 
     working_directory: /go/src/github.com/pedrofpvieira/jtalk
+
+    environment:
+      TEST_RESULTS: /tmp/test-results
+
     steps:
       - checkout
       - run: go get -v -t -d ./...
+      - run:
+          name: Run Unit Tests
+          command: |
+            make test | tee ${TEST_RESULTS}/go-test.out
