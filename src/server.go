@@ -2,21 +2,22 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gocql/gocql"
-	"time"
 )
 
 var router *gin.Engine
 
-var Session *gocql.Session
+var session *gocql.Session
 
 func connect() {
 	var err error
 
 	cluster := gocql.NewCluster("scylla")
 
-	Session, err = cluster.CreateSession()
+	session, err = cluster.CreateSession()
 
 	if err != nil {
 		// Must be because the db is not ready yet

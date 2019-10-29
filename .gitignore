@@ -1,4 +1,3 @@
-data/
 .idea
 _generated/*
 !_generated/.gitkeep
