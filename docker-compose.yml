@@ -4,6 +4,7 @@ services:
   server:
     build:
       context: ./
+      dockerfile: ./docker/server/Dockerfile
     volumes:
       - ./:/app
     command: go run ./src
@@ -11,9 +12,13 @@ services:
       - "127.0.0.1:7070:7070"
     env_file:
       - ./configurations.env
+    depends_on:
+      - scylla
+    links:
+      - scylla
 
   scylla:
-    image: scylladb/scylla:3.0.10
-    volumes:
-      - ./data/jtalk-scylla:/var/lib/scylla
+    build:
+      context: ./
+      dockerfile: ./docker/scylladb/Dockerfile
 

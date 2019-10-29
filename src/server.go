@@ -1,10 +1,31 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gocql/gocql"
+	"time"
 )
 
 var router *gin.Engine
+
+var Session *gocql.Session
+
+func connect() {
+	var err error
+
+	cluster := gocql.NewCluster("scylla")
+
+	Session, err = cluster.CreateSession()
+
+	if err != nil {
+		// Must be because the db is not ready yet
+		time.Sleep(10000 * time.Millisecond)
+		connect()
+	}
+
+	fmt.Println("scylla init done!")
+}
 
 func setupRouter() {
 	router = gin.Default()
