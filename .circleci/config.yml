@@ -15,8 +15,12 @@ jobs:
 
     steps:
       - checkout
-      - run: go get -v -t -d ./...
+      - run: mkdir -p $TEST_RESULTS
+      - run: 
+          name: Download dependencies
+          command: | 
+            go get -v -t -d ./...
       - run:
-          name: Run Unit Tests
+          name: Run unit tests
           command: |
             make test | tee ${TEST_RESULTS}/go-test.out
