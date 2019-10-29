@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/pedrofpvieira/jtalk/tree/master.svg?style=svg)](https://circleci.com/gh/pedrofpvieira/jtalk/tree/master)
+
 # JTalk Microservice
 
 This microservice intends to create a bridge for communication between 2 peers.
@@ -5,6 +7,7 @@ This microservice intends to create a bridge for communication between 2 peers.
 ## Technology Stack
 * Golang (https://golang.org/)
 * ScyllaDB (https://www.scylladb.com/)
+* CircleCI (https://circleci.com)
 
 ## Setup
 Just run:
@@ -16,7 +19,5 @@ docker-compose up
 
 ## Endpoints
 
-* POST /conversations
-* GET /conversations/:conversation_id
-* POST /conversations/:conversation_id/messages
-* DELETE /conversations/:conversation_id/messages/:message_id
+* GET /conversations/author/:author_id
+* GET /conversations/messages/:conversation_id
