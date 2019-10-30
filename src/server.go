@@ -1,6 +1,8 @@
 package main
 
 import (
+	"jtalk/src/configurations"
+	"jtalk/src/migrations"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,8 +15,8 @@ func setupRouter() {
 }
 
 func main() {
-	readConfigurations()
+	configurations.ReadConfigurations()
 	setupRouter()
-	runMigrations()
+	migrations.RunMigrations()
 	router.Run(":7070")
 }

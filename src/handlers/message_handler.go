@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"net/http"
@@ -9,11 +9,5 @@ import (
 func addMessage(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"response": "Message added to conversation successfully!",
-	})
-}
-
-func deleteMessage(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"response": "Message deleted from conversation successfully!",
 	})
 }

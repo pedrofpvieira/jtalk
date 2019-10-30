@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS conversation_messages
     author_id       bigint,
     content         text,
     created_at      timestamp,
-    PRIMARY KEY (conversation_id, created_at)
-) WITH CLUSTERING ORDER BY (created_at DESC);
+    PRIMARY KEY (message_id, conversation_id)
+) WITH CLUSTERING ORDER BY (conversation_id ASC);
 
 CREATE TABLE IF NOT EXISTS author_conversations
 (
