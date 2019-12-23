@@ -1,0 +1,12 @@
+.form-control {
+    width: 10%;
+    padding-right: 15px;
+  }
+
+.search-input {
+    margin: 15px 15px 15px 15px;
+}
+
+.search-button {
+    margin: 15px 15px 15px 0px;
+}

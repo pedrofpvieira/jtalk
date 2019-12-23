@@ -4,10 +4,13 @@ import (
 	"jtalk/src/handlers"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func initRoutes() {
+	// TODO For development purposes, to be reviewed, for now all requests are accepted
+	router.Use(cors.Default())
 
 	router.GET("/", func(c *gin.Context) {
 		c.String(http.StatusNotImplemented, "")
