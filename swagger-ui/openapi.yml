@@ -24,7 +24,15 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
+                  $ref: '#/components/schemas/conversation'
+        '404':
+          description: No conversations found for a given author
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/conversation'
   /conversations/messages/{conversation_id}:
     get:
       operationId: findMessagesByConversation
@@ -50,8 +58,6 @@ components:
     message:
       type: object
       properties:
-        conversation_id:
-          type: integer
         message_id:
           type: integer
         author_id:
@@ -59,4 +65,11 @@ components:
         content:
           type: string
         created_at:
+          type: string
+    conversation:
+      type: object
+      properties:
+        conversation_id:
           type: integer
+        created_at:
+          type: string

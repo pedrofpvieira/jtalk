@@ -15,11 +15,19 @@ func GetAuthorConversations(c *gin.Context) {
 	conversations := models.FindConversationsByAuthor(authorID)
 
 	var conversationsAsMap []map[string]string
+	var status int
+
 	for _, conversation := range conversations {
 		conversationsAsMap = append(conversationsAsMap, conversation.ToMap())
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	if conversationsAsMap == nil {
+		status = http.StatusNotFound
+	} else {
+		status = http.StatusOK
+	}
+
+	c.JSON(status, gin.H{
 		"conversations": conversationsAsMap,
 	})
 }
@@ -31,11 +39,19 @@ func GetConversation(c *gin.Context) {
 	messages := models.FindMessagesByConversation(conversationID)
 
 	var messagesAsMap []map[string]string
+	var status int
+
 	for _, message := range messages {
 		messagesAsMap = append(messagesAsMap, message.ToMap())
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	if messagesAsMap == nil {
+		status = http.StatusNotFound
+	} else {
+		status = http.StatusOK
+	}
+
+	c.JSON(status, gin.H{
 		"messages": messagesAsMap,
 	})
 }
