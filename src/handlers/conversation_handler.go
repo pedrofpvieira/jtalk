@@ -55,3 +55,15 @@ func GetConversation(c *gin.Context) {
 		"messages": messagesAsMap,
 	})
 }
+
+// CreateConversation Creates a new conversation between two authors. If they already have a conversation
+// do not create and simply return the existing conversation ID
+func CreateConversation(c *gin.Context) {
+	senderID, _ := strconv.ParseInt(c.PostForm("sender_id"), 10, 64)
+	recipientID, _ := strconv.ParseInt(c.PostForm("recipient_id"), 10, 64)
+	message := c.PostForm("message")
+
+	conversationID := models.CreateConversation(senderID, recipientID)
+
+	models.AddMessage(conversationID, senderID, message)
+}

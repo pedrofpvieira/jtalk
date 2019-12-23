@@ -3,6 +3,7 @@ package models
 import (
 	"jtalk/src/db"
 	"jtalk/src/entities"
+	"math/rand"
 	"time"
 )
 
@@ -28,4 +29,18 @@ func FindMessagesByConversation(conversationID int64) []entities.Message {
 		panic(err)
 	}
 	return messages
+}
+
+// AddMessage Adds a message to an existing conversation
+func AddMessage(conversationID int64, authorID int64, message string) {
+	query := db.Session.Query("INSERT into conversation_messages (conversation_id, author_id, message_id, created_at) VALUES (?, ?, ?, ?)",
+		conversationID,
+		authorID,
+		rand.Intn(1000000000000), //TODO for now random, needs to be revised
+		time.Now(),
+	)
+
+	if err := query.Exec(); err != nil {
+		panic(err)
+	}
 }

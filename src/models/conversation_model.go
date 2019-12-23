@@ -3,6 +3,7 @@ package models
 import (
 	"jtalk/src/db"
 	"jtalk/src/entities"
+	"math/rand"
 	"time"
 )
 
@@ -26,4 +27,35 @@ func FindConversationsByAuthor(authorID int64) []entities.Conversation {
 		panic(err)
 	}
 	return conversations
+}
+
+// CreateConversation Creates a new conversation between two authors
+func CreateConversation(senderID int64, recipientID int64) int64 {
+
+	createdAt := time.Now()
+	conversationID := rand.Int63n(1000000000000) // for now random, needs to revised
+
+	// TODO check lightweith transaction system since we are adding two inserts
+
+	querySender := db.Session.Query("INSERT into author_conversations (author_id, conversation_id, created_at) VALUES (?, ?, ?)",
+		senderID,
+		conversationID,
+		createdAt,
+	)
+
+	queryRecipient := db.Session.Query("INSERT into author_conversations (author_id, conversation_id, created_at) VALUES (?, ?, ?)",
+		recipientID,
+		conversationID,
+		createdAt,
+	)
+
+	if err := querySender.Exec(); err != nil {
+		panic(err)
+	}
+
+	if err := queryRecipient.Exec(); err != nil {
+		panic(err)
+	}
+
+	return conversationID
 }
