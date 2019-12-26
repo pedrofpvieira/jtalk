@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+const insertQuery = "INSERT into author_conversations (author_id, conversation_id, created_at) VALUES (?, ?, ?)"
+
 // FindConversationsByAuthor Return All the conversation based on the author ID
 func FindConversationsByAuthor(authorID int64) []entities.Conversation {
 	conversations := make([]entities.Conversation, 0)
@@ -36,18 +38,8 @@ func CreateConversation(senderID int64, recipientID int64) int64 {
 	conversationID := rand.Int63n(1000000000000) // for now random, needs to revised
 
 	// TODO check lightweith transaction system since we are adding two inserts
-
-	querySender := db.Session.Query("INSERT into author_conversations (author_id, conversation_id, created_at) VALUES (?, ?, ?)",
-		senderID,
-		conversationID,
-		createdAt,
-	)
-
-	queryRecipient := db.Session.Query("INSERT into author_conversations (author_id, conversation_id, created_at) VALUES (?, ?, ?)",
-		recipientID,
-		conversationID,
-		createdAt,
-	)
+	querySender := db.Session.Query(insertQuery, senderID, conversationID, createdAt)
+	queryRecipient := db.Session.Query(insertQuery, recipientID, conversationID, createdAt)
 
 	if err := querySender.Exec(); err != nil {
 		panic(err)
