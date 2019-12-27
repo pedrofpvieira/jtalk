@@ -12,7 +12,7 @@ func FindMessagesByConversation(conversationID int64) []entities.Message {
 	messages := make([]entities.Message, 0)
 	row := map[string]interface{}{}
 
-	iter := db.Session.Query("SELECT * FROM conversation_messages WHERE conversation_id = ?", conversationID).Iter()
+	iter := db.Session.Query("SELECT * FROM messages WHERE conversation_id = ?", conversationID).Iter()
 
 	for iter.MapScan(row) {
 		messages = append(messages, entities.Message{
@@ -33,9 +33,10 @@ func FindMessagesByConversation(conversationID int64) []entities.Message {
 
 // AddMessage Adds a message to an existing conversation
 func AddMessage(conversationID int64, authorID int64, message string) {
-	query := db.Session.Query("INSERT into conversation_messages (conversation_id, author_id, message_id, created_at) VALUES (?, ?, ?, ?)",
+	query := db.Session.Query("INSERT into messages (conversation_id, author_id, content, message_id, created_at) VALUES (?, ?, ?, ?, ?)",
 		conversationID,
 		authorID,
+		message,
 		rand.Intn(1000000000000), //TODO for now random, needs to be revised
 		time.Now(),
 	)

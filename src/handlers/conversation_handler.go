@@ -8,6 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// NewConversation struct that defines a new conversation
+type NewConversation struct {
+	SenderID    int64  `json:"sender_id" binding:"required"`
+	RecipientID int64  `json:"recipient_id" binding:"required"`
+	Message     string `json:"message" binding:"required"`
+}
+
 // GetAuthorConversations Handler to return all conversations per author_id
 func GetAuthorConversations(c *gin.Context) {
 	authorID, _ := strconv.ParseInt(c.Param("author_id"), 10, 64)
@@ -59,11 +66,10 @@ func GetConversation(c *gin.Context) {
 // CreateConversation Creates a new conversation between two authors. If they already have a conversation
 // do not create and simply return the existing conversation ID
 func CreateConversation(c *gin.Context) {
-	senderID, _ := strconv.ParseInt(c.PostForm("sender_id"), 10, 64)
-	recipientID, _ := strconv.ParseInt(c.PostForm("recipient_id"), 10, 64)
-	message := c.PostForm("message")
+	var conversation NewConversation
+	c.BindJSON(&conversation)
 
-	conversationID := models.CreateConversation(senderID, recipientID)
+	conversationID := models.CreateConversation(conversation.SenderID, conversation.RecipientID)
 
-	models.AddMessage(conversationID, senderID, message)
+	models.AddMessage(conversationID, conversation.SenderID, conversation.Message)
 }

@@ -7,14 +7,14 @@ import (
 	"time"
 )
 
-const insertQuery = "INSERT into author_conversations (author_id, conversation_id, created_at) VALUES (?, ?, ?)"
+const insertQuery = "INSERT into conversations (author_id, conversation_id, created_at) VALUES (?, ?, ?)"
 
 // FindConversationsByAuthor Return All the conversation based on the author ID
 func FindConversationsByAuthor(authorID int64) []entities.Conversation {
 	conversations := make([]entities.Conversation, 0)
 	row := map[string]interface{}{}
 
-	iter := db.Session.Query("SELECT * FROM author_conversations WHERE author_id = ?", authorID).Iter()
+	iter := db.Session.Query("SELECT * FROM conversations WHERE author_id = ?", authorID).Iter()
 
 	for iter.MapScan(row) {
 		conversations = append(conversations, entities.Conversation{
