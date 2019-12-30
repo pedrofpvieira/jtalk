@@ -17,8 +17,21 @@ services:
     links:
       - scylla
 
+  client:
+    build: 
+      context: ./
+      dockerfile: ./docker/client/Dockerfile
+    volumes: 
+      - ./client/:/app
+    environment:
+      - REACT_APP_PORT=3000
+    command: npm start
+    ports:
+      - "127.0.0.1:3000:3000"
+    links:
+      - server
+
   scylla:
     build:
       context: ./
       dockerfile: ./docker/scylladb/Dockerfile
-
