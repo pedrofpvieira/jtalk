@@ -25,5 +25,8 @@ func initRoutes() {
 
 		// Get Conversation
 		conversationRoutes.GET("/messages/:conversation_id", handlers.GetConversation)
+
+		// Create a new conversation
+		conversationRoutes.POST("/", handlers.CreateConversation)
 	}
 }

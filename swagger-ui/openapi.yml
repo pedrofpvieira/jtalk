@@ -10,48 +10,74 @@ paths:
       operationId: findConversationsByAuthor
       summary: Find conversations by author
       parameters:
-          - in: path
-            name: author_id
-            required: true
-            schema:
-              type: integer
-              example: 1
+        - in: path
+          name: author_id
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
-        '200':
+        "200":
           description: The author's conversation list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: integer
+                  $ref: "#/components/schemas/conversation"
+        "404":
+          description: No conversations found for a given author
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/conversation"
   /conversations/messages/{conversation_id}:
     get:
       operationId: findMessagesByConversation
       summary: Find messages by conversation
       parameters:
-          - in: path
-            name: conversation_id
-            required: true
-            schema:
-              type: integer
-              example: 1
+        - in: path
+          name: conversation_id
+          required: true
+          schema:
+            type: integer
+            example: 1
       responses:
-        '200':
+        "200":
           description: The message list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/message'
+                  $ref: "#/components/schemas/message"
+  /conversations:
+    post:
+      operationId: createNewConversation
+      summary: Start a new conversation between peers
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/CreateConversation"
+      responses:
+        "200":
+          description: Returns the conversation ID created
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/NewConversationResponse"
 components:
   schemas:
     message:
       type: object
       properties:
-        conversation_id:
-          type: integer
         message_id:
           type: integer
         author_id:
@@ -59,4 +85,26 @@ components:
         content:
           type: string
         created_at:
+          type: string
+    conversation:
+      type: object
+      properties:
+        conversation_id:
           type: integer
+        created_at:
+          type: string
+    CreateConversation:
+      type: object
+      properties:
+        sender_id:
+          type: integer
+        recipient_id:
+          type: integer
+        message:
+          type: string
+    NewConversationResponse:
+      type: object
+      properties:
+        conversation_id:
+          type: integer
+  

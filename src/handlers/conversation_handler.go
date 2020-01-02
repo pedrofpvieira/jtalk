@@ -8,6 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// NewConversation struct that defines a new conversation
+type NewConversation struct {
+	SenderID    int64  `json:"sender_id" binding:"required"`
+	RecipientID int64  `json:"recipient_id" binding:"required"`
+	Message     string `json:"message" binding:"required"`
+}
+
 // GetAuthorConversations Handler to return all conversations per author_id
 func GetAuthorConversations(c *gin.Context) {
 	authorID, _ := strconv.ParseInt(c.Param("author_id"), 10, 64)
@@ -15,11 +22,19 @@ func GetAuthorConversations(c *gin.Context) {
 	conversations := models.FindConversationsByAuthor(authorID)
 
 	var conversationsAsMap []map[string]string
+	var status int
+
 	for _, conversation := range conversations {
 		conversationsAsMap = append(conversationsAsMap, conversation.ToMap())
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	if conversationsAsMap == nil {
+		status = http.StatusNotFound
+	} else {
+		status = http.StatusOK
+	}
+
+	c.JSON(status, gin.H{
 		"conversations": conversationsAsMap,
 	})
 }
@@ -31,11 +46,34 @@ func GetConversation(c *gin.Context) {
 	messages := models.FindMessagesByConversation(conversationID)
 
 	var messagesAsMap []map[string]string
+	var status int
+
 	for _, message := range messages {
 		messagesAsMap = append(messagesAsMap, message.ToMap())
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	if messagesAsMap == nil {
+		status = http.StatusNotFound
+	} else {
+		status = http.StatusOK
+	}
+
+	c.JSON(status, gin.H{
 		"messages": messagesAsMap,
+	})
+}
+
+// CreateConversation Creates a new conversation between two authors. If they already have a conversation
+// do not create and simply return the existing conversation ID
+func CreateConversation(c *gin.Context) {
+	var conversation NewConversation
+	c.BindJSON(&conversation)
+
+	conversationID := models.CreateConversation(conversation.SenderID, conversation.RecipientID)
+
+	models.AddMessage(conversationID, conversation.SenderID, conversation.Message)
+
+	c.JSON(http.StatusOK, gin.H{
+		"conversation_id": conversationID,
 	})
 }
