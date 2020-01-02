@@ -72,4 +72,8 @@ func CreateConversation(c *gin.Context) {
 	conversationID := models.CreateConversation(conversation.SenderID, conversation.RecipientID)
 
 	models.AddMessage(conversationID, conversation.SenderID, conversation.Message)
+
+	c.JSON(http.StatusOK, gin.H{
+		"conversation_id": conversationID,
+	})
 }
